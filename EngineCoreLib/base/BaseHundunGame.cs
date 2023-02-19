@@ -8,7 +8,6 @@ namespace hundun.unitygame.enginecorelib
 {
     public abstract class BaseHundunGame<T_GAME, T_SAVE> where T_GAME : BaseHundunGame<T_GAME, T_SAVE>
     {
-        public static T_GAME INSTANCE { get; }
 
         protected readonly int constMainViewportWidth;
         protected readonly int constMainViewportHeight;

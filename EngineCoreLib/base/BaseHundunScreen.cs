@@ -7,8 +7,20 @@ using UnityEngine.UI;
 
 namespace hundun.unitygame.enginecorelib
 {
-    public abstract class BaseHundunScreen<T_GAME, T_SAVE> where T_GAME : BaseHundunGame<T_GAME, T_SAVE>
+    public abstract class BaseHundunScreen<T_GAME, T_SAVE> : MonoBehaviour where T_GAME : BaseHundunGame<T_GAME, T_SAVE>
     {
+        protected void Start()
+        {
+            this.show();
+        }
+
+        protected void Update()
+        {
+            float delta = Time.deltaTime;
+            this.render(delta);
+
+        }
+
 
         // ------ unity adapter member ------
         public T_GAME game;
@@ -16,12 +28,10 @@ namespace hundun.unitygame.enginecorelib
         // ------ lazy init ------
         public LogicFrameHelper logicFrameHelper;
 
-        public BaseHundunScreen(T_GAME game)
+        virtual public void postMonoBehaviourInitialization(T_GAME game)
         {
             this.game = game;
         }
-
-
 
         public abstract void show();
 
