@@ -24,12 +24,6 @@ namespace hundun.unitygame.enginecorelib
             //this.aspectRatioFitter.aspectRatio = parentSize.x / parentSize.y;
         }
 
-        private Vector2 GetParentSize()
-        {
-            var parent = transform.parent as RectTransform;
-            return parent == null ? Vector2.zero : parent.rect.size;
-        }
-
     }
 }
 

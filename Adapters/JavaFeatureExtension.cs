@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace hundun.unitygame.adapters
 {
-
+    public delegate void JRunable();
     public class JClass
     {
         private String name;
@@ -67,7 +67,7 @@ namespace hundun.unitygame.adapters
                 map.Add(k, defaultV);
             } else
             {
-                map.Add(k, fun.Invoke(map[k], defaultV));
+                map.put(k, fun.Invoke(map[k], defaultV));
             }
         }
 
