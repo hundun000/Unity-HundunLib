@@ -96,6 +96,10 @@ namespace hundun.unitygame.adapters
             return c[index];
         }
 
+        public static int size<T>(this List<T> c)
+        {
+            return c.Count;
+        }
 
         public static bool isEmpty<T>(this ICollection<T> c)
         {
