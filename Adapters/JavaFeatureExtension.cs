@@ -73,7 +73,15 @@ namespace hundun.unitygame.adapters
 
         public static V get<K, V>(this Dictionary<K, V> map, K k)
         {
-            return map[k];
+            if (map.ContainsKey(k))
+            {
+                return map[k];
+            }
+            else
+            {
+                return default(V);
+            }
+            
         }
 
         public static V getOrDefault<K, V>(this Dictionary<K, V> map, K k, V v)
