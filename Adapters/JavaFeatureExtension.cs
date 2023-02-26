@@ -6,6 +6,7 @@ using System.Linq;
 namespace hundun.unitygame.adapters
 {
     public delegate void JRunable();
+    public delegate void JConsumer<T>(T arg);
     public class JClass
     {
         private String name;

@@ -14,7 +14,7 @@ namespace hundun.unitygame.adapters
     {
         const string fileName = "save.json";
 
-        public bool hasSave()
+        public bool hasRootSave()
         {
             return File.Exists(GetFilePath(fileName));
         }
