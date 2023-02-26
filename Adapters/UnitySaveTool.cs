@@ -56,6 +56,7 @@ namespace hundun.unitygame.adapters
                 using (StreamReader reader = new StreamReader(path))
                 {
                     string json = reader.ReadToEnd();
+                    Debug.Log("ReadFromFIle Success by path: " + path);
                     return json;
                 }
             }
@@ -64,7 +65,7 @@ namespace hundun.unitygame.adapters
                 Debug.LogWarning("File not found");
             }
 
-            return "Success";
+            return "ReadFromFIle fail: " + path;
         }
 
         private string GetFilePath(string fileName)

@@ -53,7 +53,7 @@ namespace hundun.unitygame.enginecorelib
 
 
 
-        public void dispose()
+        virtual public void dispose()
         {
 
         }

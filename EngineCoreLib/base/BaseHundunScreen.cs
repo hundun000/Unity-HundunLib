@@ -21,6 +21,11 @@ namespace hundun.unitygame.enginecorelib
 
         }
 
+        void OnApplicationQuit()
+        {
+            game.dispose();
+        }
+
 
         // ------ unity adapter member ------
         public T_GAME game;
