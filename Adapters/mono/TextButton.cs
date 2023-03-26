@@ -24,6 +24,8 @@ namespace hundun.unitygame.adapters
             this.label = this.transform.Find("label").GetComponent<Text>();
             this.background = this.GetComponent<Image>();
             this.button = this.GetComponent<Button>();
+
+            this.background.sprite = Resources.Load<Sprite>("button2_rounded_CC.9");
         }
 
     }

@@ -21,7 +21,8 @@ namespace hundun.unitygame.gamelib
     public abstract class PairChildrenSaveHandler<T_ROOT_SAVE, T_SYSTEM_SAVE, T_GAMEPLAY_SAVE> : AbstractSaveHandler<T_ROOT_SAVE>
     {
         private Boolean gameSaveDirty = false;
-        T_ROOT_SAVE starterRootSaveDataCache;
+        T_SYSTEM_SAVE starterRootSaveDataAsSystemSaveDataCache;
+        List<T_GAMEPLAY_SAVE> starterRootSaveDataAsGameplaySaveDataCache;
         T_ROOT_SAVE fileRootSaveDataCache;
         Boolean _hasContinuedGameplaySave;
         private readonly List<ISubGameplaySaveHandler<T_GAMEPLAY_SAVE>> subGameplaySaveHandlers = new();
@@ -48,7 +49,11 @@ namespace hundun.unitygame.gamelib
             {
                 fileRootSaveDataCache = default(T_ROOT_SAVE);
             }
-            this.starterRootSaveDataCache = this.genereateStarterRootSaveData();
+            var allStarterRootSaveData = this.genereateStarterRootSaveData();
+            this.starterRootSaveDataAsSystemSaveDataCache = rootSaveExtension.getSystemSave(allStarterRootSaveData.get(0));
+            allStarterRootSaveData.RemoveAt(0);
+            this.starterRootSaveDataAsGameplaySaveDataCache = allStarterRootSaveData.Select(it => rootSaveExtension.getGameplaySave(it)).ToList();
+
             this._hasContinuedGameplaySave = fileRootSaveDataCache != null && rootSaveExtension.getGameplaySave(fileRootSaveDataCache) != null;
         }
 
@@ -62,7 +67,7 @@ namespace hundun.unitygame.gamelib
             }
             else
             {
-                systemSave = rootSaveExtension.getSystemSave(starterRootSaveDataCache);
+                systemSave = starterRootSaveDataAsSystemSaveDataCache;
             }
 
             if (systemSave != null)
@@ -82,25 +87,25 @@ namespace hundun.unitygame.gamelib
         /**
          * must after systemSettingLoadOrStarter(), and rootSaveDataCache from LoadOrStarter will be not null.
          */
-        override public void gameplayLoadOrStarter(Boolean continued)
+        override public void gameplayLoadOrStarter(int starterIndex)
         {
             gameSaveDirty = true;
 
             T_GAMEPLAY_SAVE gameplaySave;
-            if (continued)
+            if (starterIndex < 0)
             {
                 gameplaySave = rootSaveExtension.getGameplaySave(fileRootSaveDataCache);
             }
             else
             {
-                gameplaySave = rootSaveExtension.getGameplaySave(starterRootSaveDataCache);
+                gameplaySave = starterRootSaveDataAsGameplaySaveDataCache.get(starterIndex);
             }
 
             if (gameplaySave != null)
             {
                 subGameplaySaveHandlers.ForEach(it =>it.applyGameplaySaveData(gameplaySave));
             }
-            frontend.log(this.getClass().getSimpleName(), continued ? "continued game done" : "starter game done");
+            frontend.log(this.getClass().getSimpleName(), "starterIndex = " + starterIndex);
         }
 
 
@@ -129,7 +134,7 @@ namespace hundun.unitygame.gamelib
             T_SYSTEM_SAVE systemSettingSave;
             systemSettingSave = rootSaveExtension.newSystemSave();
             subSystemSettingSaveHandlers.ForEach(it => it.currentSituationToSystemSetting(systemSettingSave));
-
+            frontend.log(this.getClass().getSimpleName(), "systemSettingSave = " + systemSettingSave);
             return rootSaveExtension.newRootSave(
                     gameplaySave,
                     systemSettingSave

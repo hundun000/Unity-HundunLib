@@ -32,9 +32,10 @@ namespace hundun.unitygame.adapters
 
         public static GameObject AsTableAddGameobject(this Transform thiz, GameObject prefab)
         {
-            GameObject vmInstance = GameObject.Instantiate(prefab, new Vector3(0, 0, 0), Quaternion.identity);
-            vmInstance.transform.SetParent(thiz.transform);
+            GameObject vmInstance = GameObject.Instantiate(prefab, thiz.position, thiz.rotation);
+            vmInstance.transform.SetParent(thiz.transform, true);
             vmInstance.transform.localPosition = new Vector3(0, 0, 0);
+            vmInstance.transform.localScale = Vector3.one;
             return vmInstance;
         }
 

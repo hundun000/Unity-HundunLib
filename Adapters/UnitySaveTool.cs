@@ -12,6 +12,7 @@ namespace hundun.unitygame.adapters
 {
     public class UnitySaveTool<T_SAVE> : ISaveTool<T_SAVE>
     {
+        //const string ITCHIO_FRIENDLY_FOLDER = "/idbfs/9c227d13233f21c6cb7967e47e8aed70-v20230406";
         const string fileName = "save.json";
 
         public bool hasRootSave()
@@ -21,7 +22,7 @@ namespace hundun.unitygame.adapters
 
         public void lazyInitOnGameCreate()
         {
-            // do nothing
+            Debug.Log("Current UnitySaveTool GetFilePath = " + GetFilePath(fileName));
         }
 
         public T_SAVE readRootSaveData()

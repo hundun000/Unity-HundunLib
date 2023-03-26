@@ -1,5 +1,6 @@
 using hundun.unitygame.adapters;
 using System;
+using System.Collections.Generic;
 
 namespace hundun.unitygame.gamelib
 {
@@ -8,9 +9,9 @@ namespace hundun.unitygame.gamelib
         protected ISaveTool<T_SAVE> saveTool;
         protected IFrontend frontend;
         public abstract void systemSettingLoadOrStarter();
-        public abstract void gameplayLoadOrStarter(Boolean load);
+        public abstract void gameplayLoadOrStarter(int starterIndex);
         protected abstract T_SAVE currentSituationToRootSaveData();
-        protected abstract T_SAVE genereateStarterRootSaveData();
+        protected abstract List<T_SAVE> genereateStarterRootSaveData();
         public abstract Boolean hasContinuedGameplaySave();
         public abstract void registerSubHandler(Object objecz);
 
