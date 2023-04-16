@@ -25,6 +25,11 @@ namespace hundun.unitygame.adapters
             this.background = this.GetComponent<Image>();
             this.button = this.GetComponent<Button>();
 
+            
+        }
+
+        virtual protected void postAwake() 
+        {
             this.background.sprite = Resources.Load<Sprite>("button2_rounded_CC.9");
         }
 
