@@ -41,6 +41,11 @@ namespace hundun.unitygame.gamelib
         override public void lazyInitOnGameCreate()
         {
             base.lazyInitOnGameCreate();
+            updateCache();
+        }
+
+        private void updateCache()
+        {
             if (saveTool.hasRootSave())
             {
                 fileRootSaveDataCache = saveTool.readRootSaveData();
@@ -87,25 +92,26 @@ namespace hundun.unitygame.gamelib
         /**
          * must after systemSettingLoadOrStarter(), and rootSaveDataCache from LoadOrStarter will be not null.
          */
-        override public void gameplayLoadOrStarter(int starterIndex)
+        override public void gameplayLoadOrStarter(int starterTemplateId)
         {
             gameSaveDirty = true;
 
             T_GAMEPLAY_SAVE gameplaySave;
-            if (starterIndex < 0)
+            if (starterTemplateId < 0)
             {
+                // no TemplateId means load-game
                 gameplaySave = rootSaveExtension.getGameplaySave(fileRootSaveDataCache);
             }
             else
             {
-                gameplaySave = starterRootSaveDataAsGameplaySaveDataCache.get(starterIndex);
+                gameplaySave = starterRootSaveDataAsGameplaySaveDataCache.get(starterTemplateId);
             }
 
             if (gameplaySave != null)
             {
                 subGameplaySaveHandlers.ForEach(it =>it.applyGameplaySaveData(gameplaySave));
             }
-            frontend.log(this.getClass().getSimpleName(), "starterIndex = " + starterIndex);
+            frontend.log(this.getClass().getSimpleName(), "starterIndex = " + starterTemplateId);
         }
 
 
@@ -135,6 +141,7 @@ namespace hundun.unitygame.gamelib
             systemSettingSave = rootSaveExtension.newSystemSave();
             subSystemSettingSaveHandlers.ForEach(it => it.currentSituationToSystemSetting(systemSettingSave));
             frontend.log(this.getClass().getSimpleName(), "systemSettingSave = " + systemSettingSave);
+            updateCache();
             return rootSaveExtension.newRootSave(
                     gameplaySave,
                     systemSettingSave
