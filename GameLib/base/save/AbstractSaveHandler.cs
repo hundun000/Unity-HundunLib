@@ -31,7 +31,12 @@ namespace hundun.unitygame.gamelib
         {
             frontend.log(this.getClass().getSimpleName(), "saveCurrent called");
             saveTool.writeRootSaveData(this.currentSituationToRootSaveData());
+            postGameSaveCurrent();
         }
 
+        virtual protected void postGameSaveCurrent()
+        {
+            // default do nothing
+        }
     }
 }

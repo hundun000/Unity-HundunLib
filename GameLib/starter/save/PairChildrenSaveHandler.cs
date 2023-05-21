@@ -44,7 +44,7 @@ namespace hundun.unitygame.gamelib
             updateCache();
         }
 
-        private void updateCache()
+        public void updateCache()
         {
             if (saveTool.hasRootSave())
             {
@@ -141,14 +141,17 @@ namespace hundun.unitygame.gamelib
             systemSettingSave = rootSaveExtension.newSystemSave();
             subSystemSettingSaveHandlers.ForEach(it => it.currentSituationToSystemSetting(systemSettingSave));
             frontend.log(this.getClass().getSimpleName(), "systemSettingSave = " + systemSettingSave);
-            updateCache();
             return rootSaveExtension.newRootSave(
                     gameplaySave,
                     systemSettingSave
                     );
         }
 
-        
+        override protected void postGameSaveCurrent()
+        {
+            updateCache();
+        }
+
 
         override public void registerSubHandler(Object objecz)
         {
